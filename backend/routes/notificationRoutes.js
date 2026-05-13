@@ -3,8 +3,21 @@ const Notification = require("../models/Notification");
 
 const router = express.Router();
 
+router.post("/notifications", async (req, res) => {
+  try {
+    const notification = await Notification.create({
+      message: req.body.message,
+      type: req.body.type || "info",
+      read: false
+    });
+    res.json(notification);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 router.get("/notifications", async (req, res) => {
-  const notifications = await Notification.find().sort({ timestamp: -1 });
+  const notifications = await Notification.find();
   res.json(notifications);
 });
 

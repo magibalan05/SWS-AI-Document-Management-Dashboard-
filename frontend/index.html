@@ -4,46 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Livvic:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
+<!-- Toast Notification Container -->
+<div id="toastContainer" class="toast-container"></div>
 
+<div class="container">
   <header>
     <h1>Document Dashboard</h1>
-    <div class="notification-bell">
-      🔔
-      <span id="notificationCount">0</span>
+    <div class="notification-container">
+      <div class="notification-bell" onclick="toggleNotifications()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span id="notificationCount">0</span>
+      </div>
+      <div id="notificationDropdown" class="notification-dropdown hidden">
+        <div class="dropdown-header">
+          <h3>Notifications</h3>
+          <button onclick="markAllRead()" class="text-btn">Mark all as read</button>
+        </div>
+        <div id="notifications" class="dropdown-body">
+          <!-- Notifications inserted here -->
+        </div>
+      </div>
     </div>
   </header>
 
-  <div class="upload-box">
-    <input type="file" id="fileInput" multiple accept="application/pdf">
-    <button onclick="uploadFiles()">Upload Files</button>
+  <div class="section">
+    <div id="dropZone" class="upload-box">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="upload-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+      <h2>Drag & Drop your PDFs here</h2>
+      <p>or click to browse files</p>
+      <input type="file" id="fileInput" multiple accept="application/pdf" class="hidden-input">
+      <button onclick="document.getElementById('fileInput').click()" class="primary-btn">Select Files</button>
+    </div>
   </div>
 
-  <div id="progressContainer"></div>
+  <div id="progressContainer" class="progress-section"></div>
 
   <div class="section">
-    <h2>Notifications</h2>
-    <div id="notifications"></div>
-  </div>
-
-  <div class="section">
-    <h2>Documents</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Size</th>
-          <th>Date</th>
-          <th>Status</th>
-          <th>Download</th>
-        </tr>
-      </thead>
-      <tbody id="documentTable"></tbody>
-    </table>
+    <div class="section-header">
+      <h2>Documents</h2>
+      <span class="badge" id="totalDocsBadge">0</span>
+    </div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Date Uploaded</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="documentTable"></tbody>
+      </table>
+    </div>
   </div>
 
 </div>
